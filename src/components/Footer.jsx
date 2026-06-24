@@ -12,9 +12,9 @@ const quickLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-blue-900/50 via-indigo-900/50 to-blue-800/50 backdrop-blur-xl border-t border-white/20 mt-16">
-      <div className="mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-12 max-w-screen-xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8">
+    <footer className="bg-gradient-to-br from-blue-900/50 via-indigo-900/50 to-blue-800/50 backdrop-blur-xl border-t border-white/20 mt-10">
+      <div className="mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-8 max-w-screen-xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img
@@ -82,16 +82,25 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2 text-gray-300">
                 <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                Semester-wise GPA Tracking
+              </li>
+              <li className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
+                No Registration or Login Required
+              </li>
+              
+              <li className="flex items-center gap-2 text-gray-300">
+                <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
                 Mobile responsive design
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8">
+        <div className="border-t border-white/10 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
-              <p className="text-gray-200 text-lg mb-1">
+              <p className="text-gray-200 text-m mb-1">
                 Made with <Heart className="w-5 h-5 text-red-400 inline mx-1" />{' '}
                 for the dreamers and achievers of the University of Sialkot.
               </p>
@@ -116,7 +125,7 @@ const Footer = () => {
             </div>
 
             <div className="flex items-center gap-4 text-sm text-gray-400">
-              <span>© 2025 USKT GPA & CGPA Calculator</span>
+              <span>© 2026 USKT GPA & CGPA Calculator</span>
             </div>
           </div>
         </div>
