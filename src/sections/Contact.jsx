@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Send,
-  Mail,
-  MapPin,
-  Clock,
   CheckCircle,
   Loader2,
 } from 'lucide-react';
@@ -25,25 +22,6 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const contactInfo = [
-  {
-    icon: Mail,
-    label: 'Email Us',
-    value: 'husnain@usktcgpacalculator.online',
-    href: 'mailto:husnain@usktcgpacalculator.online',
-  },
-  {
-    icon: MapPin,
-    label: 'Location',
-    value: 'University of Sialkot, Punjab, Pakistan',
-  },
-  {
-    icon: Clock,
-    label: 'Response Time',
-    value: 'Typically within 24 hours',
-  },
-];
-
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -53,15 +31,26 @@ const Contact = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate submission
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error('Failed to send');
+
       setSubmitted(true);
       setForm({ name: '', email: '', subject: '', message: '' });
-    }, 1500);
+    } catch {
+      alert('Failed to send message. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -88,23 +77,17 @@ const Contact = () => {
         </motion.p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-5 gap-8">
-        {/* Contact Form */}
+      <div className="max-w-2xl mx-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={stagger}
-          className="lg:col-span-3"
         >
           <motion.div
             variants={fadeInUp}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8"
           >
-            <h2 className="text-2xl font-bold text-white mb-6">
-              Send a Message
-            </h2>
-
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -206,66 +189,6 @@ const Contact = () => {
                 </button>
               </form>
             )}
-          </motion.div>
-        </motion.div>
-
-        {/* Contact Info Sidebar */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={stagger}
-          className="lg:col-span-2 space-y-6"
-        >
-          {contactInfo.map((info, i) => {
-            const Icon = info.icon;
-            return (
-              <motion.div
-                key={info.label}
-                variants={fadeInUp}
-                custom={i}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex-shrink-0">
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white mb-1">
-                      {info.label}
-                    </h3>
-                    {info.href ? (
-                      <a
-                        href={info.href}
-                        className="text-amber-300 hover:text-amber-200 transition-colors text-sm"
-                      >
-                        {info.value}
-                      </a>
-                    ) : (
-                      <p className="text-gray-400 text-sm">{info.value}</p>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-
-          <motion.div
-            variants={fadeInUp}
-            custom={3}
-            className="bg-gradient-to-r from-amber-500/10 to-blue-500/10 border border-amber-500/20 rounded-2xl p-6"
-          >
-            <h3 className="font-bold text-white mb-2">Prefer Email?</h3>
-            <p className="text-gray-400 text-sm mb-4">
-              You can also reach us directly at our email address.
-            </p>
-            <a
-              href="mailto:husnain@usktcgpacalculator.online"
-              className="inline-flex items-center gap-2 text-amber-300 hover:text-amber-200 transition-colors font-medium"
-            >
-              <Mail className="w-4 h-4" />
-              husnain@usktcgpacalculator.online
-            </a>
           </motion.div>
         </motion.div>
       </div>
