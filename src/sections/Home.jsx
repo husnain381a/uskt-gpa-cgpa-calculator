@@ -248,12 +248,20 @@ const Home = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, i) => {
             const Icon = feature.icon;
+            const isGradingPolicy = feature.title === 'Grading Policy';
+            const Wrapper = isGradingPolicy ? 'button' : Link;
+            const wrapperProps = isGradingPolicy
+              ? {
+                  onClick: () => setShowGrading(true),
+                  className: "block group h-full w-full text-left",
+                }
+              : {
+                  href: feature.link,
+                  className: "block group h-full",
+                };
             return (
               <motion.div key={feature.title} variants={fadeInUp} custom={i}>
-                <Link
-                  href={feature.link}
-                  className="block group h-full"
-                >
+                <Wrapper {...wrapperProps}>
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300 hover:border-amber-400/50 hover:shadow-xl hover:-translate-y-1 h-full">
                     <div
                       className={`inline-flex p-3 bg-gradient-to-r ${feature.color} rounded-xl mb-4 shadow-lg`}
@@ -267,7 +275,7 @@ const Home = () => {
                       {feature.description}
                     </p>
                   </div>
-                </Link>
+                </Wrapper>
               </motion.div>
             );
           })}
