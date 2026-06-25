@@ -32,7 +32,7 @@ const developers = [
     role: 'Full Stack Developer',
     description:
       'Passionate about creating innovative solutions and beautiful user experiences. Building tools that make a difference.',
-    portfolio: 'https://husnainmazhar.site/',
+    portfolio: 'https://husnainmazhar.com/',
     linkedin: 'https://linkedin.com/in/husnain-mazhar',
     avatar:
       'https://blogger.googleusercontent.com/img/a/AVvXsEgKK4DXZac12kWzKnZhM6PJB5KayFroA7giRVAuiBXA8-UApBmMKJFCtmQd0O1LHNmoNIoHw3q5sTlcRIhq-oAkx8tJkiB5p5wSEInDRKy9Ifq7BGfBUIt47IazpTVA1F2Ap08TsnqjSvpTc3CCY6EnwWxX8H97ioG224X8HWM97ISDCRhWgzH6yt2IO0E',
@@ -42,7 +42,7 @@ const developers = [
     role: 'Frontend Developer & UI/UX Designer',
     description:
       'Dedicated to crafting intuitive interfaces and seamless user journeys. Turning complex problems into simple solutions.',
-    portfolio: 'https://aimen-ansari.github.io/portfolio1/',
+    portfolio: 'https://aimenansari.site/',
     linkedin: 'https://www.linkedin.com/in/aimen92/',
     avatar:
       'https://blogger.googleusercontent.com/img/a/AVvXsEilw1J1gxN17Vyr8QJ7kSpkhZTu4yjsq8IQg-KtGqs6phtdRWQ_Rf4BwVgHHbSpcRhmmRR9UcvLXav-GMhVjgJZDkOy2g_g-azweDK4EieRCfajeBn1fz0gyABqnGu-ufAAwTMpYVkNgyKHzkR1CPCqatpYoR2_NWiD3SELr9vgWw30rxgJ2eki9TsEX9s',
