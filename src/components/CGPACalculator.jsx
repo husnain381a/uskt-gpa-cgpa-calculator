@@ -14,12 +14,11 @@ import {
   Trophy,
   Heart,
   Flame,
-  BookOpen,
   Image,
-  X,
   GraduationCap,
   Video,
 } from 'lucide-react';
+import GradingPolicyModal from './GradingPolicyModal';
 
 const motivationalQuotes = {
   excellent: [
@@ -54,60 +53,7 @@ const motivationalQuotes = {
   ],
 };
 
-// Official University of Sialkot Grading Data
-const officialGradingData = [
-  {
-    marksRange: '85 ----- 100',
-    grade: 'A+',
-    gpa: '4.00',
-    remarks: 'Exceptional',
-  },
-  {
-    marksRange: '80 ----- 84.99',
-    grade: 'A',
-    gpa: '3.66',
-    remarks: 'Outstanding',
-  },
-  {
-    marksRange: '75 ----- 79.99',
-    grade: 'B+',
-    gpa: '3.33',
-    remarks: 'Excellent',
-  },
-  {
-    marksRange: '71 ----- 74.99',
-    grade: 'B',
-    gpa: '3.00',
-    remarks: 'Very Good',
-  },
-  { marksRange: '68 ----- 70.99', grade: 'B-', gpa: '2.66', remarks: 'Good' },
-  {
-    marksRange: '64 ----- 67.99',
-    grade: 'C+',
-    gpa: '2.33',
-    remarks: 'Above Average',
-  },
-  { marksRange: '61 ----- 63.99', grade: 'C', gpa: '2.00', remarks: 'Average' },
-  {
-    marksRange: '58 ----- 60.99',
-    grade: 'C-',
-    gpa: '1.66',
-    remarks: 'Satisfactory',
-  },
-  {
-    marksRange: '54 ----- 57.99',
-    grade: 'D+',
-    gpa: '1.33',
-    remarks: 'Marginal pass',
-  },
-  {
-    marksRange: '50 ----- 53.99',
-    grade: 'D',
-    gpa: '1.00',
-    remarks: 'Unsatisfactory',
-  },
-  { marksRange: '00 ----- 49.99', grade: 'F', gpa: '0.00', remarks: 'Fail' },
-];
+
 
 const CGPACalculator = () => {
   const [semesters, setSemesters] = useState([
@@ -399,198 +345,7 @@ const CGPACalculator = () => {
     );
   };
 
-  const GradingSystemModal = () => {
-    if (!showGradingSystem) return null;
 
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 40 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 40 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-          className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-white/20"
-        >
-          <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center gap-3">
-              <BookOpen className="w-8 h-8 text-amber-400" />
-              <h2 className="text-3xl font-bold text-white">
-                University of Sialkot - Official Grading Policy
-              </h2>
-            </div>
-            <motion.button
-              whileHover={{ rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setShowGradingSystem(false)}
-              className="p-2 bg-red-500/20 hover:bg-red-500/30 rounded-full text-red-400 hover:text-red-300 transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </motion.button>
-          </div>
-
-          {/* Official University Grading Table */}
-          <div className="bg-white/5 rounded-2xl p-6 mb-8 border border-white/10">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">
-              Official University Grading Scale
-            </h3>
-
-            {/* Responsive Table */}
-            <div className="w-full">
-              <table className="hidden md:table w-full bg-white/10 rounded-xl border border-white/20 overflow-hidden">
-                <thead>
-                  <tr className="bg-gradient-to-r from-blue-900/50 to-amber-900/50">
-                    <th className="px-6 py-4 text-left text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">
-                      Marks Range
-                    </th>
-                    <th className="px-6 py-4 text-center text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">
-                      Grade
-                    </th>
-                    <th className="px-6 py-4 text-center text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">
-                      GPA
-                    </th>
-                    <th className="px-6 py-4 text-center text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">
-                      Remarks
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {officialGradingData.map((row, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? 'bg-white/5' : 'bg-white/10'
-                      } hover:bg-white/15 transition-all duration-200`}
-                    >
-                      <td className="px-6 py-4 text-white font-medium border-b border-white/10">
-                        {row.marksRange}
-                      </td>
-                      <td className="px-6 py-4 text-center border-b border-white/10">
-                        <span className="inline-flex items-center justify-center w-12 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg text-white font-bold text-sm">
-                          {row.grade}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-center text-amber-300 font-bold border-b border-white/10">
-                        {row.gpa}
-                      </td>
-                      <td className="px-6 py-4 text-center text-gray-300 border-b border-white/10">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            row.remarks === 'Exceptional' ||
-                            row.remarks === 'Outstanding' ||
-                            row.remarks === 'Excellent'
-                              ? 'bg-green-500/20 text-green-300'
-                              : row.remarks === 'Very Good' ||
-                                row.remarks === 'Good' ||
-                                row.remarks === 'Above Average'
-                              ? 'bg-blue-500/20 text-blue-300'
-                              : row.remarks === 'Average' ||
-                                row.remarks === 'Satisfactory'
-                              ? 'bg-yellow-500/20 text-yellow-300'
-                              : 'bg-red-500/20 text-red-300'
-                          }`}
-                        >
-                          {row.remarks}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {/* Mobile Version */}
-              <div className="md:hidden flex flex-col gap-4">
-                {officialGradingData.map((row, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/10 rounded-xl p-4 border border-white/20 text-sm text-white space-y-2"
-                  >
-                    <div>
-                      <span className="font-bold text-amber-300">
-                        Marks Range:
-                      </span>{' '}
-                      {row.marksRange}
-                    </div>
-                    <div>
-                      <span className="font-bold text-amber-300">Grade:</span>{' '}
-                      <span className="inline-flex items-center justify-center w-10 h-6 bg-gradient-to-r from-amber-500 to-orange-500 rounded-md text-white font-bold text-sm">
-                        {row.grade}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-amber-300">GPA:</span>{' '}
-                      <span className="font-bold text-amber-200">
-                        {row.gpa}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-bold text-amber-300">Remarks:</span>{' '}
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          row.remarks === 'Exceptional' ||
-                          row.remarks === 'Outstanding' ||
-                          row.remarks === 'Excellent'
-                            ? 'bg-green-500/20 text-green-300'
-                            : row.remarks === 'Very Good' ||
-                              row.remarks === 'Good' ||
-                              row.remarks === 'Above Average'
-                            ? 'bg-blue-500/20 text-blue-300'
-                            : row.remarks === 'Average' ||
-                              row.remarks === 'Satisfactory'
-                            ? 'bg-yellow-500/20 text-yellow-300'
-                            : 'bg-red-500/20 text-red-300'
-                        }`}
-                      >
-                        {row.remarks}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 p-6 bg-gradient-to-r from-blue-500/20 to-amber-500/20 rounded-xl border border-blue-500/30">
-              <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Calculator className="w-6 h-6 text-amber-400" />
-                CGPA Calculation Formula
-              </h4>
-              <div className="space-y-3">
-                <p className="text-gray-300">
-                  <strong className="text-amber-300">
-                    CGPA = Total Grade Points ÷ Total Credit Units
-                  </strong>
-                </p>
-                <p className="text-gray-300">
-                  <strong className="text-blue-300">
-                    Grade Points = Semester GPA × Credit Units
-                  </strong>{' '}
-                  (for each semester)
-                </p>
-                <div className="bg-white/10 rounded-lg p-4 mt-4">
-                  <h5 className="text-amber-300 font-bold mb-2">
-                    Example Calculation:
-                  </h5>
-                  <p className="text-gray-300 text-sm">
-                    Semester 1: 3.50 GPA × 18 credits = 63.00 grade points
-                    <br />
-                    Semester 2: 3.75 GPA × 20 credits = 75.00 grade points
-                    <br />
-                    <strong className="text-white">
-                      Total: 138.00 grade points ÷ 38 total credits = 3.63 CGPA
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-    );
-  };
 
   return (
     <div className="space-y-8">
@@ -819,7 +574,13 @@ const CGPACalculator = () => {
 
       {/* Grading System Modal */}
       <AnimatePresence>
-        <GradingSystemModal />
+        {showGradingSystem && (
+          <GradingPolicyModal
+            show={showGradingSystem}
+            onClose={() => setShowGradingSystem(false)}
+            type="cgpa"
+          />
+        )}
       </AnimatePresence>
     </div>
   );

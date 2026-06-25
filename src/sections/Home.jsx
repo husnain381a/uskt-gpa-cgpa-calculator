@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import {
   Calculator,
@@ -14,6 +15,7 @@ import {
   Users,
   CheckCircle,
 } from 'lucide-react';
+import GradingPolicyModal from '@/components/GradingPolicyModal';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
@@ -67,8 +69,32 @@ const stats = [
   { icon: Sparkles, value: 'Free', label: 'Always Ad-Free' },
 ];
 
+const officialGradingData = [
+  { marksRange: '85 ----- 100', grade: 'A+', gpa: '4.00', remarks: 'Exceptional' },
+  { marksRange: '80 ----- 84.99', grade: 'A', gpa: '3.66', remarks: 'Outstanding' },
+  { marksRange: '75 ----- 79.99', grade: 'B+', gpa: '3.33', remarks: 'Excellent' },
+  { marksRange: '71 ----- 74.99', grade: 'B', gpa: '3.00', remarks: 'Very Good' },
+  { marksRange: '68 ----- 70.99', grade: 'B-', gpa: '2.66', remarks: 'Good' },
+  { marksRange: '64 ----- 67.99', grade: 'C+', gpa: '2.33', remarks: 'Above Average' },
+  { marksRange: '61 ----- 63.99', grade: 'C', gpa: '2.00', remarks: 'Average' },
+  { marksRange: '58 ----- 60.99', grade: 'C-', gpa: '1.66', remarks: 'Satisfactory' },
+  { marksRange: '54 ----- 57.99', grade: 'D+', gpa: '1.33', remarks: 'Marginal pass' },
+  { marksRange: '50 ----- 53.99', grade: 'D', gpa: '1.00', remarks: 'Unsatisfactory' },
+  { marksRange: '00 ----- 49.99', grade: 'F', gpa: '0.00', remarks: 'Fail' },
+];
+
+const remarkColor = (remarks) => {
+  if (['Exceptional', 'Outstanding', 'Excellent'].includes(remarks)) return 'bg-green-500/20 text-green-300';
+  if (['Very Good', 'Good', 'Above Average'].includes(remarks)) return 'bg-blue-500/20 text-blue-300';
+  if (['Average', 'Satisfactory'].includes(remarks)) return 'bg-yellow-500/20 text-yellow-300';
+  return 'bg-red-500/20 text-red-300';
+};
+
 const Home = () => {
+  const [showGrading, setShowGrading] = useState(false);
+
   return (
+    <>
     <div className="space-y-24 pb-16">
       <section className="relative pt-12 md:pt-20">
         <div className="text-center max-w-5xl mx-auto">
@@ -129,6 +155,15 @@ const Home = () => {
               <GraduationCap className="w-6 h-6" />
               Calculate CGPA
             </Link>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setShowGrading(true)}
+              className="bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center gap-3"
+            >
+              <BookOpen className="w-6 h-6" />
+              View University Grading Policy
+            </motion.button>
           </motion.div>
 
           <motion.div
@@ -239,6 +274,107 @@ const Home = () => {
         </div>
       </motion.section>
 
+      {/* Grading Policy Section */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+        variants={staggerContainer}
+        className="max-w-6xl mx-auto"
+      >
+        <motion.div variants={fadeInUp} className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-1.5 mb-4">
+            <Award className="w-4 h-4 text-amber-400" />
+            <span className="text-amber-300 text-sm font-medium">Official USKT Policy</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+            Grading Policy
+          </h2>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            University of Sialkot's official grading system and policies.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={fadeInUp}
+          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 lg:p-8"
+        >
+          <div className="w-full">
+            <table className="hidden md:table w-full bg-white/10 rounded-xl border border-white/20 overflow-hidden">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-900/50 to-amber-900/50">
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">Marks Range</th>
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">Grade</th>
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">GPA</th>
+                  <th className="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-bold text-amber-300 uppercase tracking-wider border-b border-white/20">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {officialGradingData.map((row, index) => (
+                  <tr key={index} className={`${index % 2 === 0 ? 'bg-white/5' : 'bg-white/10'} hover:bg-white/15 transition-all duration-200`}>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-white font-medium border-b border-white/10 text-sm lg:text-base">{row.marksRange}</td>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-center border-b border-white/10">
+                      <span className="inline-flex items-center justify-center w-10 lg:w-12 h-7 lg:h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg text-white font-bold text-xs lg:text-sm">{row.grade}</span>
+                    </td>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-center text-amber-300 font-bold border-b border-white/10 text-sm lg:text-base">{row.gpa}</td>
+                    <td className="px-4 lg:px-6 py-3 lg:py-4 text-center text-gray-300 border-b border-white/10">
+                      <span className={`px-2 lg:px-3 py-1 rounded-full text-xs font-medium ${remarkColor(row.remarks)}`}>{row.remarks}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="md:hidden flex flex-col gap-3">
+              {officialGradingData.map((row, index) => (
+                <div key={index} className="bg-white/10 rounded-xl p-3 border border-white/20 text-xs text-white space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-amber-300">Marks:</span>
+                    <span>{row.marksRange}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-amber-300">Grade:</span>
+                    <span className="inline-flex items-center justify-center w-10 h-6 bg-gradient-to-r from-amber-500 to-orange-500 rounded-md text-white font-bold text-sm">{row.grade}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-amber-300">GPA:</span>
+                    <span className="font-bold text-amber-200">{row.gpa}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-amber-300">Remarks:</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${remarkColor(row.remarks)}`}>{row.remarks}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 lg:mt-8 p-4 lg:p-6 bg-gradient-to-r from-blue-500/20 to-amber-500/20 rounded-xl border border-blue-500/30">
+            <h4 className="text-lg lg:text-xl font-bold text-white mb-3 lg:mb-4 flex items-center gap-2">
+              <Calculator className="w-5 h-5 lg:w-6 lg:h-6 text-amber-400" />
+              GPA & CGPA Calculation Formula
+            </h4>
+            <div className="space-y-2 lg:space-y-3">
+              <p className="text-sm lg:text-base text-gray-300">
+                <strong className="text-amber-300">GPA/CGPA = Total Grade Points ÷ Total Credit Units</strong>
+              </p>
+              <p className="text-sm lg:text-base text-gray-300">
+                <strong className="text-blue-300">Grade Points = Grade Point Value × Credit Units</strong> (for each subject)
+              </p>
+              <div className="bg-white/10 rounded-lg p-3 lg:p-4 mt-2 lg:mt-4">
+                <h5 className="text-amber-300 font-bold mb-1 lg:mb-2 text-sm lg:text-base">Example Calculation:</h5>
+                <p className="text-gray-300 text-xs lg:text-sm">
+                  Subject: A+ (4.00) × 3 credits = 12.00 grade points
+                  <br />
+                  <strong className="text-white">GPA = Total Grade Points ÷ Total Credit Units</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.section>
+
+      {/* CTA Section */}
       <motion.section
         initial="hidden"
         whileInView="visible"
@@ -276,7 +412,19 @@ const Home = () => {
           </div>
         </motion.div>
       </motion.section>
+
     </div>
+
+      <AnimatePresence>
+        {showGrading && (
+          <GradingPolicyModal
+            show={showGrading}
+            onClose={() => setShowGrading(false)}
+            type="both"
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
